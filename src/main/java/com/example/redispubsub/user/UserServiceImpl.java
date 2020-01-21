@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object getClient() {
+        //Nothinh
         return redisService.getClient();
     }
 

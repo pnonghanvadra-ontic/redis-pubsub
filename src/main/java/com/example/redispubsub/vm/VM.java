@@ -48,7 +48,7 @@ public class VM implements PubSubListner {
     public User delete(String key){
         User user = localCache.get(key);
 
-        // PubSubMessage can be added 
+        // PubSubMessage can be added
 
         pubSubService.publish("ontic",user);
         localCache.remove(key);
@@ -58,6 +58,7 @@ public class VM implements PubSubListner {
     @Override
     public <T> void onMessage(T message) {
         System.out.println("Message recieved");
+        localCache.remove(((User)message).getId());
         System.out.println(message);
     }
 }

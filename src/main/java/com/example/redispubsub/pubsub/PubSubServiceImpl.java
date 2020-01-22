@@ -24,7 +24,7 @@ public class PubSubServiceImpl implements PubSubService {
 
     @Override
     public <T> void subscribe(String topic, PubSubListner listener) {
-        getTopic(topic).addListener(Object.class, new MessageListener<Object>() {
+        this.redisService.getTopic(topic).addListener(Object.class, new MessageListener<Object>() {
             @Override
             public void onMessage(CharSequence channel,  Object msg) {
                 listener.onMessage(msg);
@@ -42,8 +42,8 @@ public class PubSubServiceImpl implements PubSubService {
 //        getTopic(topic).removeListener();
 //    }
 
-    @Override
-    public RTopic getTopic(String topic) {
-       return this.redisService.getTopic(topic);
-    }
+//    @Override
+//    public RTopic getTopic(String topic) {
+//       return this.redisService.getTopic(topic);
+//    }
 }

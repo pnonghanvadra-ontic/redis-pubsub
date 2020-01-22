@@ -3,25 +3,21 @@ package com.example.redispubsub.services;
 import org.redisson.api.RKeys;
 import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
-import org.redisson.api.listener.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
+@Service
 public class RedisServiceImpl implements RedisService {
 
     private RedissonClient redissonClient;
-    private RTopic rTopic;
-    private static final String TOPIC = "ontic";
-
 
     @Autowired
     public RedisServiceImpl(RedissonClient redissonClient) {
         try {
             this.redissonClient = redissonClient;
-            rTopic = redissonClient.getTopic(TOPIC);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -44,23 +40,11 @@ public class RedisServiceImpl implements RedisService {
         return obj;
     }
 
-//    @Override
-//    public <T> void listen(String topic) throws InterruptedException {
-//        RTopic rTopic = redissonClient.getTopic(topic);
-//        CountDownLatch latch = new CountDownLatch(2);
-//        ((RTopic) rTopic).addListener(String.class, new MessageListener<String>() {
-//            @Override
-//            public void onMessage(CharSequence channel,  String message) {
-//                System.out.println(message);
-//                latch.countDown();
-//            }
-//        });
-//        latch.await();
-//    }
 
     @Override
-    public Object getClient() {
-        return redissonClient;
+    public RTopic getTopic(String topic){
+        RTopic rTopic = this.redissonClient.getTopic(topic);
+        return rTopic;
     }
 
     @Override
@@ -72,10 +56,5 @@ public class RedisServiceImpl implements RedisService {
             map.put(key, (T) get(key));
         }
         return map;
-    }
-
-    @Override
-    public <T> void publish(T msg){
-        rTopic.publish(msg);
     }
 }

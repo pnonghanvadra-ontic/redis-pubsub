@@ -1,17 +1,23 @@
 package com.example.redispubsub.user;
 
+import com.example.redispubsub.pubsub.PubSubService;
 import com.example.redispubsub.services.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private RedisService redisService;
+    private PubSubService pubSubService;
     // to be added ->  Map<String, User> userCache =
 
     @Autowired
-    public UserServiceImpl(RedisService redisService) {
+    public UserServiceImpl(RedisService redisService, PubSubService pubSubService) {
         this.redisService = redisService;
+        this.pubSubService = pubSubService;
     }
 
     @Override
@@ -41,14 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void publish(String msg) {
-        redisService.publish(msg);
+    public void publish(String topic, Object object) {
+        pubSubService.publish(topic, object);
     }
 
-    @Override
-    public Object getClient() {
-        return redisService.getClient();
-    }
+//    @Override
+//    public RTopic getTopic(String topic){
+//        return pubSubService.getTopic(topic);
+//    }
 
     /*public void lister(String listenedMessage) {
         String msg = listenedMessage;

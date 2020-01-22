@@ -1,3 +1,4 @@
+/*
 package com.example.redispubsub.user;
 
 import org.springframework.web.bind.annotation.*;
@@ -37,3 +38,4 @@ public class UserController {
         return msg;
     }
 }
+*/

@@ -1,5 +1,6 @@
 package com.example.redispubsub.user;
 
+import com.example.redispubsub.pubsub.PubSubMessage;
 import com.example.redispubsub.pubsub.PubSubService;
 import com.example.redispubsub.services.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void publish(String topic, Object object) {
-        pubSubService.publish(topic, object);
+    public void publish(String topic, PubSubMessage message) {
+        pubSubService.publish(topic, message);
     }
 
 //    @Override

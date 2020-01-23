@@ -1,5 +1,6 @@
 package com.example.redispubsub.vm;
 
+import com.example.redispubsub.pubsub.PubSubMessage;
 import com.example.redispubsub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class VMController {
     }
 
     @DeleteMapping("/{id}")
-    public User delete(@PathVariable("id") final String id){
+    public PubSubMessage delete(@PathVariable("id") final String id){
         return vm.delete(id);
     }
 

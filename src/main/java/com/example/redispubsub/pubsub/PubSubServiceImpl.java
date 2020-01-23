@@ -16,32 +16,22 @@ public class PubSubServiceImpl implements PubSubService {
     }
 
     @Override
-    public <T> void publish(String topic, T message) {
-        this.redisService.getTopic(topic).publish(message);
+    public void publish(String topic, PubSubMessage pubSubMessage) {
+        this.redisService.getTopic(topic).publish(pubSubMessage);
     }
 
     @Override
-    public <T> void subscribe(String topic, PubSubListner listener) {
-        this.redisService.getTopic(topic).addListener(Object.class, new MessageListener<Object>() {
+    public void subscribe(String topic, PubSubListner listener) {
+        this.redisService.getTopic(topic).addListener(PubSubMessage.class, new MessageListener<PubSubMessage>() {
             @Override
-            public void onMessage(CharSequence channel,  Object msg) {
+            public void onMessage(CharSequence channel,  PubSubMessage msg) {
                 listener.onMessage(msg);
             }
         });
     }
 
     @Override
-    public <T> void unsubscribe(String topic) {
+    public void unsubscribe(String topic) {
 
     }
-
-//    @Override
-//    public <T> void unsubscribe(String topic) {
-//        getTopic(topic).removeListener();
-//    }
-
-//    @Override
-//    public RTopic getTopic(String topic) {
-//       return this.redisService.getTopic(topic);
-//    }
 }

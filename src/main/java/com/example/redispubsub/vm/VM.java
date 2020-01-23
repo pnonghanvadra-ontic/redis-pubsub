@@ -1,6 +1,7 @@
 package com.example.redispubsub.vm;
 
 import com.example.redispubsub.pubsub.PubSubListner;
+import com.example.redispubsub.pubsub.PubSubMessage;
 import com.example.redispubsub.pubsub.PubSubService;
 import com.example.redispubsub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @Component
 public class VM implements PubSubListner {
-    private static final Long id = 1L;
+    private static final Long NodeID = 1L;
     private Map<String, User>  localCache;
     private PubSubService pubSubService;
 
@@ -45,20 +46,28 @@ public class VM implements PubSubListner {
         localCache.put(user.getId(),user);
     }
 
-    public User delete(String key){
+    public PubSubMessage delete(String key){
         User user = localCache.get(key);
 
         // PubSubMessage can be added
 
-        pubSubService.publish("ontic",user);
-        localCache.remove(key);
-        return user;
+        PubSubMessage pubSubMessage = new PubSubMessage();
+        pubSubMessage.setMessage(user);
+        pubSubMessage.setNodeID(NodeID);
+        pubSubService.publish("ontic", pubSubMessage);
+
+        if(localCache.containsKey(key))
+            localCache.remove(key);
+
+        return pubSubMessage;
     }
 
     @Override
-    public <T> void onMessage(T message) {
+    public void onMessage (PubSubMessage message) {
         System.out.println("Message recieved");
-        localCache.remove(((User)message).getId());
-        System.out.println(message);
+        if(!message.getNodeID().equals(this.NodeID)) {
+            localCache.remove(((User) message.getMessage()).getId());
+            System.out.println(message.getMessage());
+        }
     }
 }

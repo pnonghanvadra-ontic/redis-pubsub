@@ -2,8 +2,7 @@ package com.example.redispubsub.pubsub;
 
 import java.io.Serializable;
 
-public class PubSubMessage implements Serializable
-{
+public class PubSubMessage implements Serializable {
     private Long NodeID;
     private Object message;
 

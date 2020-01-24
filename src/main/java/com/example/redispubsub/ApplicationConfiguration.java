@@ -1,57 +1,34 @@
 package com.example.redispubsub;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
+import com.example.redispubsub.config.RedisConfig;
+import com.example.redispubsub.utils.Host;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration()
-//@ComponentScan({"com.example.redispubsub"})
 public class ApplicationConfiguration {
 
-//    @Bean(name = "config")
-//    public Config getConfig(){
+//    @Bean
+//    RedissonClient getRedissonClent() {
 //        Config config = new Config();
 //        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-//        return config;
+//        RedissonClient redissonClient = Redisson.create(config);
+//        return redissonClient;
 //    }
 
-//    @Bean(name = "vm1")
-//    VM1 getVM1(UserService userService){
-//        return new VM1(userService);
-//    }
 
-//    @Bean(name = "cache2")
-//    VM2 getCache2(UserService userService){
-//        return new VM2(userService);
-//    }
-//
-//    @Bean(name = "cache3")
-//    VM3 getCache3(UserService userService){
-//        return new VM3(userService);
-//    }
 
-//    @Bean
-//    UserService getUserService(RedisService redisService, PubSubService pubSubService){
-//        return new UserServiceImpl(redisService, pubSubService);
-//    }
-//
     @Bean
-    RedissonClient getRedissonClent() {
-        Config config = new Config();
-        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-        RedissonClient redissonClient = Redisson.create(config);
-        return redissonClient;
+    RedisConfig getRedisConfig(){
+        RedisConfig redisConfig = new RedisConfig();
+        Host host = new Host();
+        host.setHost("127.0.0.1");
+        host.setPort(6379);
+        List<Host> hostList = new ArrayList<>();
+        hostList.add(host);
+        redisConfig.setHosts(hostList);
+        return redisConfig;
     }
-//
-//    @Bean(name="pubSubService")
-//    PubSubService getPusSubService(RedissonClient redissonClient){
-//        return new PubSubServiceImpl(redissonClient);
-//    }
-//
-//    @Bean(name = "redisservice")
-//    public RedisService getRedisService(RedissonClient redissonClient){
-//        return new RedisServiceImpl(redissonClient);
-//    }
-
 }

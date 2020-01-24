@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component
 public class VM implements PubSubListner {
-    private static final Long NodeID = 1L;
+    private static final Long NodeID = 3L;
     private Map<String, User>  localCache;
     private PubSubService pubSubService;
 
